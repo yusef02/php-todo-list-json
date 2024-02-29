@@ -32,39 +32,29 @@
   <body>
     <div id="app">
       <div class="container py-5">
-        <h1 class="h1 mb-4">Vue To Do List</h1>
-
-        <div class="row">
-          <div class="col">
-            <h2 class="mb-4">Aggiungi una task</h2>
-            <div class="row flex-row">
-              <div class="col">
-                <input type="text" class="form-control" />
-              </div>
-              <div class="col-2">
-                <button type="button" class="btn btn-primary">Aggiungi</button>
+        <div class="col-8 mx-auto">
+          <h1 class="h1 mb-4">Todo list</h1>
+          <div class="row">
+            <div class="col">
+              <h2 class="mb-4">Aggiungi una task</h2>
+              <div class="row flex-row">
+                <div class="col input-group">
+                  <input type="text" class="form-control" />
+                  <button type="button" class="btn btn-success">
+                    Aggiungi
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-
-        <div class="row gy-3 mt-3">
-          <h2>Le tue task</h2>
-          <div class="col-12">
-            <div class="card p-3 d-flex flex-row align-items-center">
-              <span class="done flex-grow-1">task</span>
-              <i class="fa-solid fa-rotate p-2 text-warning"></i>
-              <i class="fa-solid fa-xmark p-2 text-danger"></i>
-            </div>
-            <div class="card p-3 d-flex flex-row align-items-center">
-              <span class="done flex-grow-1">task</span>
-              <i class="fa-solid fa-check p-2 text-success"></i>
-              <i class="fa-solid fa-xmark p-2 text-danger"></i>
-            </div>
-            <div class="card p-3 d-flex flex-row align-items-center">
-              <span class="done flex-grow-1">task</span>
-              <i class="fa-solid fa-check p-2 text-success"></i>
-              <i class="fa-solid fa-xmark p-2 text-danger"></i>
+          <div class="row gy-3 mt-3">
+            <h2>Le tue task</h2>
+            <div v-for="(task, index) in taskList" class="col-12">
+              <div class="card p-3 d-flex flex-row align-items-center">
+                <span :class="[{ done : task.done}]" class="flex-grow-1"
+                  >{{ task.text }}</span
+                >
+              </div>
             </div>
           </div>
         </div>
@@ -81,7 +71,15 @@
     <!-- cdn script vue -->
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 
+    <!-- cdn script axios -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.7/axios.min.js"
+      integrity="sha512-NQfB/bDaB8kaSXF8E77JjhHG5PM6XVRxvHzkZiwl3ddWCEPBa23T76MuWSwAJdMGJnmQqM0VeY9kFszsrBEFrQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+
     <!-- script main js -->
-    <script type="text/javascript" src="./js/main.js"></script>
+    <script type="text/javascript" src="./js/index.js"></script>
   </body>
 </html>
