@@ -39,8 +39,17 @@
               <h2 class="mb-4">Aggiungi una task</h2>
               <div class="row flex-row">
                 <div class="col input-group">
-                  <input type="text" class="form-control" />
-                  <button type="button" class="btn btn-success">
+                  <input
+                    type="text"
+                    v-model="newTask.text"
+                    @keyUp.enter="addTask(newTask)"
+                    class="form-control"
+                  />
+                  <button
+                    type="button"
+                    @click="addTask(newTask)"
+                    class="btn btn-success"
+                  >
                     Aggiungi
                   </button>
                 </div>
@@ -54,6 +63,20 @@
                 <span :class="[{ done : task.done}]" class="flex-grow-1"
                   >{{ task.text }}</span
                 >
+                <i
+                  v-if="task.done == false"
+                  class="fa-solid fa-check p-2 text-success"
+                  @click="doneTask(index)"
+                ></i>
+                <i
+                  v-if="task.done == true"
+                  class="fa-solid fa-rotate p-2 text-warning"
+                  @click="redoTask(index)"
+                ></i>
+                <i
+                  class="fa-solid fa-xmark p-2 text-danger"
+                  @click="deleteTask(index)"
+                ></i>
               </div>
             </div>
           </div>
