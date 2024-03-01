@@ -45,8 +45,21 @@ createApp({
         newTask.text = "";
       } else alert("inserire una descrizione per aggiungere la task");
     },
-    fetchUpgradeTaskState(taskIndex) {
-      this.taskList[taskIndex].done = true;
+    fetchUpgradeTaskState(taskIndex, task) {
+      newState = !task.done;
+
+      const data = { index: taskIndex, state: newState };
+      const params = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      };
+
+      axios
+        .post("../backend/api/upgrade-task.php", data, params)
+        .then((res) => {
+          this.taskList = res.data;
+        });
     },
   },
   created() {
