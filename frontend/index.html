@@ -42,12 +42,12 @@
                   <input
                     type="text"
                     v-model="newTask.text"
-                    @keyUp.enter="addTask(newTask)"
+                    @keyUp.enter="fetchAddTask(newTask)"
                     class="form-control"
                   />
                   <button
                     type="button"
-                    @click="addTask(newTask)"
+                    @click="fetchAddTask(newTask)"
                     class="btn btn-success"
                   >
                     Aggiungi
@@ -59,23 +59,27 @@
           <div class="row gy-3 mt-3">
             <h2>Le tue task</h2>
             <div v-for="(task, index) in taskList" class="col-12">
-              <div class="card p-3 d-flex flex-row align-items-center">
-                <span :class="[{ done : task.done}]" class="flex-grow-1"
+              <div
+                :class="task.done ? 'alert alert-success':'alert alert-info'"
+                class="card p-3 d-flex flex-row align-items-center"
+                role="alert"
+              >
+                <span :class="{'done':task.done}" class="flex-grow-1"
                   >{{ task.text }}</span
                 >
                 <i
                   v-if="task.done == false"
                   class="fa-solid fa-check p-2 text-success"
-                  @click="doneTask(index)"
+                  @click="fetchUpgradeTaskState(index, task)"
                 ></i>
                 <i
                   v-if="task.done == true"
                   class="fa-solid fa-rotate p-2 text-warning"
-                  @click="redoTask(index)"
+                  @click="fetchUpgradeTaskState(index, task)"
                 ></i>
                 <i
                   class="fa-solid fa-xmark p-2 text-danger"
-                  @click="deleteTask(index)"
+                  @click="fetchDeleteTask(index)"
                 ></i>
               </div>
             </div>

@@ -3,31 +3,53 @@ const { createApp } = Vue;
 createApp({
   data() {
     return {
-      taskList: [
-        { text: "task", done: false },
-        { text: "task", done: true },
-        { text: "task", done: true },
-        { text: "task", done: false },
-        { text: "task", done: false },
-      ],
+      taskList: [],
       newTask: { text: "", done: false },
     };
   },
   methods: {
-    deleteTask(taskIndex) {
-      this.taskList.splice(taskIndex, 1);
+    fetchTasksList() {
+      axios.get("../backend/api/get-tasks.php").then((res) => {
+        this.taskList = res.data;
+      });
     },
-    addTask(newTask) {
+
+    fetchDeleteTask(taskIndex) {
+      const data = { index: taskIndex };
+      const params = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      };
+
+      axios.post("../backend/api/delete-task.php", data, params).then((res) => {
+        this.taskList = res.data;
+      });
+    },
+
+    fetchAddTask(newTask) {
       if (newTask.text !== "") {
-        this.taskList.push({ ...newTask });
+        const data = { text: newTask.text, done: newTask.done };
+        const params = {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        };
+
+        axios
+          .post("../backend/api/add-new-task.php", data, params)
+          .then((res) => {
+            this.taskList = res.data;
+          });
+
         newTask.text = "";
       } else alert("inserire una descrizione per aggiungere la task");
     },
-    doneTask(taskIndex) {
+    fetchUpgradeTaskState(taskIndex) {
       this.taskList[taskIndex].done = true;
     },
-    redoTask(taskIndex) {
-      this.taskList[taskIndex].done = false;
-    },
+  },
+  created() {
+    this.fetchTasksList();
   },
 }).mount("#app");
